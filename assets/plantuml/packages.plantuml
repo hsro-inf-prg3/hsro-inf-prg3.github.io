@@ -5,7 +5,7 @@ package de.fhro.prg3 {
 
     }
 
-    package de.fhro.prg3.subpackage {
+    package subpackage {
         class ClassB {
 
         }
