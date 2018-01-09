@@ -114,4 +114,4 @@ _Einführung durch Artikelsammlung in die einzelnen Themen und Anwendung mit Üb
 - Wichtige `FunctionalInterface`s: `Predicate`, `Function`, `BinaryOperator`, ...
 - Lambda und Methodenreferenzen (insb. Konstruktor)
 - Erweiterte Funktionen: `collect`, `groupingBy`
-- Übung evtl. mit Hibernate um Streams auf einer Datenbank anzuwenden? Ggf. mit Herr Höfing bzw. Herr Krüger absprechen ob die Studenten noch JDBC machen in den Übungen?
+- Übung evtl. mit Hibernate um Streams auf einer Datenbank anzuwenden? Ggf. mit Herr Höfig bzw. Herr Krüger absprechen ob die Studenten noch JDBC machen in den Übungen?
