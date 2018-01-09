@@ -81,10 +81,10 @@ Credits: written exam (90') at the end of the semester.
 	
 	`Thread`s are clunky--- learn about a better `Future`, and what _promise chaining_ can do for you.
 
-- **Introduction to functional programming (Jan 10, [lecture notes](/12ln-fp1/), [assignments](https://github.com/hsro-inf-prg3/12-functional-cli))**
+- **Introduction to functional programming (Jan 10, [slides](/12s-fp1/), [lecture notes](/12ln-fp1/), [assignments](https://github.com/hsro-inf-prg3/12-functional-cli))**
 	
 	Leave your imperative and objected oriented programming comfort zone and follow me down the rabbit hole of functional programming.
-	After some theory, we'll do some basic exercises, including `filter` and `map`.
+	After some theory, we'll do some basic exercises, including `filter`, `map` and `forEach`.
 
 - **Functional programming in Java (Jan 17)**
 
