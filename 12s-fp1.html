@@ -24,6 +24,75 @@ Korbinian Riedhammer
 
 ---
 
+# Functional Programming
+
+## Immutable Objects
+
+## Functions as First-Class Citizens
+
+---
+
+# Immutable Objects
+
+If objects cannot be changed after their creation, parallelization becomes much easier.
+
+`java.lang.String`
+- no methods to change instance
+- always returns _new_ instance
+
+`final` modifier for attributes and variable, sort of:
+- only prevents overwriting of primitive type or reference
+- object may still be mutated
+
+.skip[
+> No mutation means no `for`/`while`!
+
+]
+---
+
+# Functions as First-Class Citizens
+
+```java
+@FunctionalInterface
+interface Function<A, B> {
+	B apply(A obj);
+}
+```
+
+```java
+Function<Integer, Integer> square1 = new Function<Integer, Integer>() {
+	@Override
+	public Integer apply(Integer i) {
+		return i * i;
+	}
+}
+```
+
+Or shorter as lambda expression `(arglist) -> { block; }`
+
+```java
+Function<Integer, Integer> square2 = (Integer i) -> { return i * i };
+```
+
+Or even shorter, for single instructions
+
+```java
+Function<Integer, Integer> square3 = i -> i * i;
+```
+
+---
+
+# Why Functional Programming?
+
+## Immutability simplifies parallelization
+
+## Separation of Concerns
+
+Functions as first-class citizens help to separate the iteration logic from the actual business logic.
+
+
+---
+
 # Example
 
 Say you want to
@@ -48,35 +117,6 @@ for (Student s : getStudents()) {
 	}
 }
 ```
-
----
-
-# Functional Programming
-
-## Immutable Objects
-
-If objects cannot be changed after their creation, parallelization becomes much easier.
-
-## Functions as First-Class Citizens
-
-Separate the traversal logic (_how to iterate the data_) from the business logic (_what to do with each sample_).
-
----
-
-# Immutable Objects in Java
-
-`java.lang.String`
-- no methods to change instance
-- always returns _new_ instance
-
-`final` modifier for attributes and variable, sort of:
-- only prevents overwriting of primitive type or reference
-- object may still be mutated
-
-### Functional Programming
-
-- no `for`/`while`, just recursion.
-- separation of concerns: functions as first-class citizens
 
 ---
 
