@@ -63,6 +63,23 @@ Separate the traversal logic (_how to iterate the data_) from the business logic
 
 ---
 
+# Immutable Objects in Java
+
+`java.lang.String`
+- no methods to change instance
+- always returns _new_ instance
+
+`final` modifier for attributes and variable, sort of:
+- only prevents overwriting of primitive type or reference
+- object may still be mutated
+
+### Functional Programming
+
+- no `for`/`while`, just recursion.
+- separation of concerns: functions as first-class citizens
+
+---
+
 # A Simple Immutable List
 
 `head` stores the data, `tail` links to the next element.
