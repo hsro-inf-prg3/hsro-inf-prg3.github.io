@@ -95,5 +95,8 @@ Credits: written exam (90') at the end of the semester.
 
 	_TBA_.
 
+## Additionals
+
+- [UML/PlantUML guide](./plantuml-guide)
 
 _Subscribe to [https://github.com/hsro-inf-prg3/hsro-inf-prg3.github.io](https://github.com/hsro-inf-prg3) repository to follow updates._
