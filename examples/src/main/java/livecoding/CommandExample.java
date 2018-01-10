@@ -1,10 +1,8 @@
 package livecoding;
 
-import designpattern.command.Command;
 import javakara.JavaKaraProgram;
 
 import java.io.IOException;
-import java.util.Stack;
 
 public class CommandExample extends JavaKaraProgram {
 	public static void main(String[] args) throws IOException, InterruptedException {
