@@ -13,6 +13,14 @@ class List<T> {
 		return head == null;
 	}
 
+	public String toString() {
+		if (isEmpty())
+			return "nil";
+		else
+			return "(" + head + " " + tail + ")";
+	}
+
+
 	static <T> List<T> empty() {
 		return new List<T>(null, null);
 	}

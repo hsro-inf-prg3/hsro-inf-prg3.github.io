@@ -440,8 +440,8 @@ interface Predicate<T> {
 ```java
 static <A> List<A> filter(List<A> xs, Predicate<A> p) {
 	if (xs.isEmpty()) return xs;
-	else if (p.test(xs.head)) return xs;
-	else return xs.tail;
+	else if (p.test(xs.head)) return list(xs.head, filter(xs.tail, p_));
+	else return filter(xs.tail, p);
 }
 ```
 
