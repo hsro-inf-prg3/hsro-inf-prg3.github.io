@@ -66,8 +66,8 @@ class Book {
 
 As already mentioned a composition describes the relationship between two classes where the child class can't exist without an instance of the parent class.
 
-The following UML models a class `SimpleList` and its containing `ListElement`.
-It doesn't make sense to have a single `ListElement` without a containing `SimpleList`.
+The following UML models a class `SimpleList<T>` and its containing `ListElement`.
+It doesn't make sense to have a single `ListElement` without a containing `SimpleList<T>`.
 
 A composition is described with a line from the child to the parent element where at the parents side is a filled diamond.
 
@@ -76,7 +76,7 @@ A composition is described with a line from the child to the parent element wher
 Java sample code:
 
 ```java
-class SimpleList {
+class SimpleList<T> {
     private ListElement listHead;
     //...
 }
@@ -169,9 +169,7 @@ Java sample code:
 
 ```java
 abstract class ClassA {
-    public abstract String greet(String name) {
-        return String.format("Hello, %s!", name);
-    }
+    public abstract String greet(String name);
 }
 ```
 
