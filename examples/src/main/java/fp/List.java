@@ -4,7 +4,7 @@ class List<T> {
 	final T head;
 	final List<T> tail;
 
-	private List(T el, List<T> tail) {
+	protected List(T el, List<T> tail) {
 		this.head = el;
 		this.tail = tail;
 	}

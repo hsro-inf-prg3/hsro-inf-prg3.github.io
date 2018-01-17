@@ -86,7 +86,7 @@ Credits: written exam (90') at the end of the semester.
 	Leave your imperative and objected oriented programming comfort zone and follow me down the rabbit hole of functional programming.
 	After some theory, we'll do some basic exercises, including `filter`, `map` and `forEach`.
 
-- **Functional programming in Java (Jan 17)**
+- **Functional programming in Java (Jan 17, [slides](/13s-fp2/), [lecture notes](/13ln-fp2/), [assignments](https://github.com/hsro-inf-prg3/13-map-reduce-collect))**
 
 	We'll talk about the specifics (and limits) of functional programming in Java.
 	Learn about the classes and interfaces used for Java's functional parts, and the more sophisticated stream reduction using `reduce` and `collect`.

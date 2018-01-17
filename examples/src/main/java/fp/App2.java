@@ -1,92 +1,130 @@
 package fp;
 
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.math.BigInteger;
+import java.util.function.*;
+import java.util.stream.Stream;
 
+import static fp.List.empty;
 import static fp.List.list;
 
 public class App2 {
 
-	static <A> A reduce(List<A> xs, BinaryOperator<A> f, A z) {
+	// functions as first-class citizens
+	static <T> List<T> filter(List<T> xs, Predicate<T> p) {
+		if (xs.isEmpty()) return empty();
+		else if (p.test(xs.head)) return list(xs.head, filter(xs.tail, p));
+		else return filter(xs.tail, p);
+	}
+
+	static <T, R> List<R> map(List<T> xs, Function<T, R> f) {
+		if (xs.isEmpty()) return empty();
+		else return list(f.apply(xs.head), map(xs.tail, f));
+	}
+
+	static <T> void forEach(List<T> xs, Consumer<T> c) {
+		if (xs.isEmpty()) return;
+		else {
+			c.accept(xs.head);
+			forEach(xs.tail, c);
+		}
+	}
+
+	static int sum(List<Integer> xs, int z) {
 		if (xs.isEmpty()) return z;
-		else return reduce(xs.tail, f, f.apply(xs.head, z));
+		else return sum(xs.tail, z+xs.head);
 	}
 
-	static <A, B> B foldLeft(List<A> xs, BiFunction<B, A, B> f, B z) {
+	static String join(List<String> xs, String z) {
 		if (xs.isEmpty()) return z;
-		else return foldLeft(xs.tail, f, f.apply(z, xs.head));  // tail-recursive
+		else return join(xs.tail, z.concat(xs.head));
 	}
 
-	static <A> A reduceLeft(List<A> xs, BiFunction<A, A, A> f) {
-		if (xs.isEmpty()) throw new UnsupportedOperationException();
-		else return foldLeft(xs.tail, f, xs.head);  // tail-recursive
-	}
+//	static <T> T reduce(List<T> xs, T z) {
+//		if (xs.isEmpty()) return z;
+//		else return reduce(xs.tail, z + xs.head);
+//	}
 
-	static <A, B> B foldRight(List<A> xs, BiFunction<A, B, B> f, B z) {
+	static <T> T reduce(List<T> xs, T z, BinaryOperator<T> op) {
 		if (xs.isEmpty()) return z;
-		else return f.apply(xs.head, foldRight(xs.tail, f, z));
+		else return reduce(xs.tail, op.apply(z, xs.head), op);
 	}
 
-	static <A> A reduceRight(List<A> xs, BiFunction<A, A, A> f) {
-		if (xs.isEmpty()) throw new UnsupportedOperationException();
-		else if (xs.tail.isEmpty()) return xs.head;
-		else return f.apply(xs.head, reduceRight(xs.tail, f));
+	static BigInteger reduce(List<Integer> xs, BigInteger z) {
+		if (xs.isEmpty()) return z;
+		else return reduce(xs.tail, z.add(BigInteger.valueOf(xs.head)));
+	}
+
+	static <T, R> R foldl(List<T> xs, R z, BiFunction<R, T, R> op) {
+		if (xs.isEmpty()) return z;
+		else return foldl(xs.tail, op.apply(z, xs.head), op);
+	}
+
+	// motivate foldr
+
+	static BigInteger sum(List<Integer> xs, BigInteger z) {
+		if (xs.isEmpty()) return z;
+		else return BigInteger.valueOf(xs.head).add(sum(xs.tail, z));
+	}
+
+	static <T, R> R foldr(List<T> xs, R z, BiFunction<T, R, R> op) {
+		if (xs.isEmpty()) return z;
+		else return op.apply(xs.head, foldr(xs.tail, z, op));
+	}
+
+	// tail-recursive map
+	static <T, R> List<R> maptr(List<T> xs, Function<T, R> op) {
+		List<T> reverse = foldl(xs, empty(), (ys, y) -> list(y, ys));
+		List<R> mapped = foldl(reverse, empty(), (ys, y) -> list(op.apply(y), ys));
+		return mapped;
 	}
 
 	public static void main(String[] args) {
-		List<Integer> xs = list(7, 3, 1, 3);
+		List<Integer> xs = list(1, 3, 3, 7);
+		System.out.println(sum(xs, 0));
 
-		System.out.println(xs);
+		List<String> ys = list("a", "b", "c", "d");
+		System.out.println(join(ys, ""));
 
-		// sum, reduced
-		System.out.println("sum");
-		System.out.println(reduceLeft(xs, (y, ys) -> y + ys));
-		System.out.println(reduceRight(xs, (ys, y) -> ys + y));
+		System.out.println(reduce(list(1, 3, 3, 7), 0, (i, j) -> Integer.sum(i, j)));
+		System.out.println(reduce(list(1, 3, 3, 7), 0, Integer::sum));
 
-		// length, folded
-		System.out.println("length");
-		System.out.println(foldLeft(xs, (n, ys) -> n + 1, 0));
-		System.out.println(foldRight(xs, (ys, n) -> n + 1, 0));
+		System.out.println(reduce(list("a", "b", "c", "d"), "", (a, b) -> a.concat(b)));  // abcd
+		System.out.println(reduce(list("a", "b", "c", "d"), "", String::concat));
+
+		reduce(list(1, 3, 3, 7), 0, (i, j) -> { System.out.println(j); return j; });
+
+		System.out.println(reduce(xs, BigInteger.ZERO));
+		System.out.println(foldl(xs, BigInteger.ZERO, (b, i) -> b.add(BigInteger.valueOf(i))));
 
 		// reverse
-		System.out.println("reverse");
-		System.out.println(foldLeft(xs, (ys, n) -> list(n, ys), List.<Integer>empty())); // type inference doesn't work
+		System.out.println(foldl(xs, List.<Integer>empty(), (zs, z) -> list(z, zs)));
+
+		// reduce-right
+		System.out.println(sum(xs, BigInteger.ZERO));
+		System.out.println(foldr(xs, BigInteger.ZERO, (i, b) -> BigInteger.valueOf(i).add(b)));
 
 		// append
-		System.out.println("append");
-		List<Integer> zs = list(0);
-		System.out.println(xs);
-		System.out.println(zs);
-		System.out.println(foldRight(xs, (n, ys) -> list(n, ys), zs));
+		System.out.println(foldr(xs, List.<Integer>list(49), (z, zs) -> list(z, zs)));
+
+		// map: squares
+		System.out.println(foldr(xs, List.<Integer>empty(), (z, zs) -> list(z*z, zs)));
+
+		// filter: lt 5
+		System.out.println(foldr(xs, List.<Integer>empty(), (z, zs) -> {
+			if (z < 5) return zs;
+			else return list(z, zs);
+		}));
+
+		// tail-rec map
+		System.out.println(foldl(foldl(xs, List.<Integer>empty(), (zs, z) -> list(z * z, zs)), List.<Integer>empty(), (zs, z) -> list(z, zs)));
 
 
-		// filter
-		Predicate<Integer> p = new Predicate<Integer>() {
-			@Override
-			public boolean test(Integer i) {
-				return i < 5;
-			}
-		};
+		System.out.println(Stream.of(1, 3, 3, 7)
+				.reduce(0, Integer::sum));
 
-		System.out.println("filter (lt 5)");
-		System.out.println(xs);
-		System.out.println(foldLeft(xs, (ys, y) -> p.test(y) ? list(y, ys) : ys, List.<Integer>empty()));
-
-
-		// map
-		Function<Integer, Integer> f = new Function<Integer, Integer>() {
-			@Override
-			public Integer apply(Integer i) {
-				return i * i;
-			}
-		};
-
-		System.out.println("squares");
-		System.out.println(xs);
-		System.out.println(foldRight(xs, (y, ys) -> list(f.apply(y), ys), List.<Integer>empty()));
-
-		System.out.println("sum: " + reduce(xs, (x, y) -> x + y, 0));  // Stream.reduce
+		System.out.println(Stream.of(1, 3, 3, 7)
+				.reduce(BigInteger.ZERO, (bi, i) -> bi.add(BigInteger.valueOf(i)), (a, b) -> a.add(b)));
 	}
+
+
 }
