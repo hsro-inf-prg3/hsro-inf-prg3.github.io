@@ -35,7 +35,7 @@ Klassen um Funktionalität erweitern ("dekorieren").
 	<div style="width: 55%; float: left">
 		<ul>
 			<li>Gemeinsame Basisklasse bzw. Interface</li>
-			<li>Aufrufe an `delegate` weiterleiten</li>
+			<li>Aufrufe an <span class="remark-code remark-code-line">delegate</span> weiterleiten</li>
 			<li>Methoden hinzufügen oder überladen</li>
 			<li>Vorallem für Kaskadierung geeignet</li>
 		</ul>
@@ -56,26 +56,30 @@ SomeObject someObject = (SomeObject) ois.readObject();
 
 # Wiederholung: Vererbung und Interfaces
 
-Ein Unternehmen hat Benutzer (`User`), wovon einige Administratoren (`AdminUser`) und andere Externe (`ExternalUser`) sind.
+Beispiel:
+
+- Wir können einfache Nachrichten (`Message`) verschicken
+- `EscalatedMessage` hat entsprechend Großbuchstaben (_schreien_).
+- `UnicodeMessage` um Smileys ausgeben zu können.
 
 .center[
 <img src="../assets/mixin-diamond-1.svg">
 ]
 
-### Was nun, wenn ein Externer ein Admin sein soll?
+#### Was nun, wenn eine `UnicodeMessage` auch "eskalierbar" sein soll?
 
 
 ---
 
 # Wiederholung: Vererbung und Interfaces
 
-Um die Typhierarchie beizubehalten wird nun ein Interface `Admin` eingeführt, so dass für mehrere Klassen `is-a Admin` gelten kann:
+Um die Typhierarchie beizubehalten wird nun ein Interface `IEscalatable` eingeführt, so dass für mehrere Klassen `is-a IEscalatable` gelten kann:
 
 .center[
 <img src="../assets/mixin-diamond-2.svg">
 ]
 
-### Nachteil: Code muss doppelt implementiert werden!
+#### Nachteil: Code muss doppelt implementiert werden!
 
 ---
 
@@ -106,52 +110,72 @@ In C# können Mixins (weitgehend) durch _extension methods_ realisiert werden.
 Realisierung durch Erweiterungsmethoden (_extension methods_).
 
 ```csharp
-class Message {
+public class Message {
 	public string Text { get; set; }
 }
-`static class` Mixins {
+public `static class` Mixins {
 	`public static` string Escalated(`this Message self`) {
-		return self.Text.ToUpper();
-	}
-	`public static` void Concat(`this Message self`, `Message other`)
-		`=>` self.Text = self.Text + " " + other.Text;
-	static void Main(string[] args) {
-		Message m = new Message();
-		m.Text = "Hello, world";
-		Console.WriteLine(m.Escalated());  // "HELLO, WORLD"
-		m.Concat(m);
-		Console.WriteLine(m.Text);  // "Hello, worldHello, world"
+  		return self.Text.ToUpper();
 	}
 }
 ```
 
-- Öffentliche statische Methode in statischer Klasse
+- Statische Methode in statischer Klasse (i.d.R. `public`)
 - Erstes Argument vom Zieltyp mit Modifier `this`
-- `=>` für [Einzelanweisung](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator) (kürzer)
+- Compiler "sammelt" alle Erweiterungsmethoden
+
+```csharp
+Message m = new Message();
+m.Text = "Hello, world";
+
+Console.WriteLine(`m.Escalated()`);        // "HELLO, WORLD"
+Console.WriteLine(`Mixins.Escalated(m)`);  // äquivalent
+```
 
 ---
 
 # Zustandsbehaftete Mixins
 
-Bisher sind die Erweiterungsmethoden lediglich statische Methoden ohne separaten Zustand.
+Die aktuelle Implementierung ist recht übersichtlich -- und zustandslos.
+
+Was ist, wenn man nun "immer weiter" eskalieren möchte, mit immer mehr Ausrufezeichen?
+
+```
+Hallo, Welt
+HALLO, WELT
+HALLO, WELT!
+HALLO, WELT!!
+HALLO, WELT!!!
+```
+
+---
+
+# Zustandsbehaftete Mixins
 
 Verwende `ConditionalWeakTable` als Zustandsspeicher.
 
+Für jeden Aufrufer wird der Zustand gespeichert.
+
 ```csharp
-class Message {
+public class Message {
 	public string Text { get; set; }
 }
-static class MessageMixins {
+
+public static class Mixins {
 	private static readonly ConditionalWeakTable<Message, object> state_ =
 		new ConditionalWeakTable<Message, object>();
 	
 	public static string Escalate(this Message self) {
 		object n;
+
+		// gibts schon einen Zustand für self?
 		if (!state_.TryGetValue(self, out n))
 			n = 0;
 
 		string message = self.Text.ToUpper() + new String('!', (int) n);
-		state_.AddOrUpdate(self, ((int) n)+1);
+		
+		// neuen Zustand für self abspeichern
+		state_.AddOrUpdate(self, 1 + (int) n);
 		return message;
 	}
 }
@@ -159,7 +183,187 @@ static class MessageMixins {
 
 ---
 
-# Vorsicht mit Autom. Typumwandlung (1)
+# Zustandsbehaftete Mixins
+
+Verwende `ConditionalWeakTable` als Zustandsspeicher.
+
+Für jeden Aufrufer wird der Zustand gespeichert.
+
+```csharp
+class Program {
+	static void Main(string[] args) {
+		Message m1 = new Message();
+        Message m2 = new Message();
+        
+        m1.Text = "Mach hin";
+        m2.Text = "Schneller";
+
+        Console.WriteLine(m1.Text);         // "Mach hin"
+        Console.WriteLine(m1.Escalated());  // "MACH HIN"
+        Console.WriteLine(m1.Escalated());  // "MACH HIN!"
+        
+        Console.WriteLine(m2.Text);         // "Schneller"
+        Console.WriteLine(m2.Escalated());  // "SCHNELLER"
+        Console.WriteLine(m2.Escalated());  // "SCHNELLER!"
+	}
+}
+```
+
+---
+
+# Sichtbarkeiten
+
+Da Erweiterungsmethoden nur syntaktischer Zucker sind, gelten die Sichtbarkeiten wie gehabt:
+
+```csharp
+public class Message {
+	public string Text { get; set; }
+	private int id;
+}
+
+public static class Mixins {
+	public static void Debug(this Message self) {
+		self.Text;  // OK
+		self.id;    // `Compilerfehler: not visible!`
+	}
+}
+```
+
+**Daher:** Es ist sinnvoll Erweiterungsmethoden gegen Interfaces zu implementieren, damit
+
+- alle benötigten Attribute eingesehen werden können
+- das Mixin flexibel über das Interface "angeheftet" werden kann
+
+
+---
+
+# Binden und Überschreiben
+
+Erweiterungsmethoden _binden wenn nötig_ aber _überschreiben **nicht**_.
+
+```csharp
+class Message {
+	public string Text { get; set; }
+	public string Escalated() {
+		Text.ToLower();
+	}
+}
+
+static class Mixins {
+	public static string Escalated(this Message self) {
+		self.Text.ToUpper();
+	}
+}
+```
+
+```csharp
+Message m = new Message();
+m.Text = "Hello, world";
+
+Console.WriteLine(m.Escalated());
+Console.WriteLine(Mixins.Escalated(m));
+```
+
+#### Ausgabe?
+
+---
+
+# Binden und Überschreiben
+
+Erweiterungsmethoden _binden wenn nötig_ aber _überschreiben **nicht**_.
+
+```csharp
+class Message {
+	public string Text { get; set; }
+	public string Escalated() {
+		Text.ToLower();
+	}
+}
+
+static class Mixins {
+	public static string Escalated(this Message self) {
+		self.Text.ToUpper();
+	}
+}
+```
+
+```csharp
+Message m = new Message();
+m.Text = "Hello, world";
+
+Console.WriteLine(m.Escalated());
+Console.WriteLine(Mixins.Escalated(m));
+```
+
+```
+hello, world
+HELLO, WORLD
+```
+
+---
+
+# Anheften von Mixins
+
+Implementiere Mixin für Interface (Dependency Inversion!)...
+
+```csharp
+public interface IEscalatable {
+	string Text { get; }
+}
+
+public static class EscalatableMixin {
+	public static string Escalated(this `IEscalatable` self) {
+		return self.Text.ToUpper();
+	}
+}
+```
+
+...und hefte es später an Klassen:
+
+```csharp
+public class EscalatedMessage : Message, IEscalatable {}
+
+public class EscalatableUnicodeMessage : UnicodeMessage, IEscalatable {}
+```
+
+
+---
+
+# Zusammenfassung
+
+- _"Favor composition over inheritance"_
+- _Mixins_ erweitern _bestehende_ Klassen _ohne_ eine verwandschaftliche Beziehung herzustellen
+- Für C# gilt:
+	- Mixins können zu einem gewissen Grad mit _extension methods_ realisiert werden.
+	- Die Einbindung einer `ConditionalWeakTable` erlaubt es instanzspezifische Zustandsinformation zu unterhalten.
+	- Extension methods binden, aber überschreiben nicht; es gelten die spezifizierten Sichtbarkeiten
+- Vergleiche auch: 
+	- Traits in Scala
+	- Mehrfachvererbung in C++ 
+	- Defaultmethoden in Java (ohne Syntaxzucker)
+
+---
+
+# Weiterführende Informationen
+
+#### Dokumentation
+
+- <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods>
+
+#### Literatur
+
+- Craig, Iain (2007). Object-Oriented Programming Languages: Interpretation. Springer.
+- Gamma, Erich; Helm, Richard; Johnson, Ralph; Vlissides, John (1994). Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley.
+
+#### Frameworks/Toolkits:
+
+- https://www.postsharp.net/
+- https://github.com/re-motion/Remix
+
+
+---
+
+# Vorsicht mit autom. Typumwandlung (1)
 
 ```csharp
 class Vorsicht {
@@ -187,7 +391,7 @@ static class VorsichtMixin {
 
 ---
 
-# Vorsicht mit Autom. Typumwandlung (2)
+# Vorsicht mit autom. Typumwandlung (2)
 
 ```csharp
 class Vorsicht {
@@ -209,142 +413,3 @@ static class VorsichtMixin {
 	}
 }
 ```
-
-
----
-
-# Syntaxzucker
-
-Erweiterungsmethoden sind normale statische Methoden _mit syntaktischem Zucker_.
-
-Der Compiler erkennt hier über das Schlüsselwort `this` als Argumentenmodifier eine Erweiterung für alle `Message` (und Unterklassen).
-
-```csharp
-class Message {
-	public string Text { get; }
-}
-static class MessageMixin {
-	public static string Escalated(this Message self)
-		=> self.Text.ToUpper();
-
-	static void Main(string[] args) {
-		Message m = new Message();
-
-		// äquivalent:
-		m.Escalated();
-		MessageMixin.Escalated(m);
-	}
-}
-```
-
----
-
-# Sichtbarkeiten
-
-Da Erweiterungsmethoden nur syntaktischer Zucker sind, gelten die Sichtbarkeiten wie gehabt:
-
-```csharp
-class Message {
-	public string Text { get; set; }
-	private int id;
-}
-static class MessageMixins {
-	public static void Debug(this Message self) {
-		self.Text;  // OK
-		self.id;    // Compilerfehler: not visible!
-	}
-}
-```
-
-**Daher:** Es ist sinnvoll Erweiterungsmethoden gegen Interfaces zu implementieren, damit
-
-- alle benötigten Attribute eingesehen werden können
-- das Mixin flexibel über das Interface "angeheftet" werden kann
-
-
----
-
-# Binden und Überschreiben (1)
-
-Erweiterungsmethoden _binden wenn nötig_ aber _überschreiben **nicht**_.
-
-```csharp
-class Message {
-	public string Text { get; set; }
-	public string Escalated() => Text.ToLower();
-}
-static class MessageMixin {
-	public static string Escalated(this Message self) 
-		=> self.Text.ToUpper();
-
-	static void Main(string[] args) {
-		Message m = new Message();
-		m.Text = "Hello, world";
-		Console.WriteLine(m.Escalated());
-		// "hello, world"
-		
-		Console.WriteLine(MessageMixin.Escalated(m));
-		// "HELLO, WORLD"
-	}
-}
-```
-
----
-
-# Binden und Überschreiben (2)
-
-Erweiterungsmethoden _binden wenn nötig_ aber _überschreiben **nicht**_.
-
-```csharp
-interface IMessage {
-	string Text { get; }
-}
-class Message `: IMessage` {
-	string Text { get; set; }
-	string Escalated() => Text.ToLower();
-}
-static class MessageMixin {
-	public static string Escalated(this `IMessage` self) 
-		=> self.Text.ToUpper();
-
-	static void Main(string[] args) {
-		Message m = new Message();
-		m.Text = "Hello, world";
-		Console.WriteLine(m.Escalated());
-		// "hello, world"
-		
-		Console.WriteLine(`(m as IMessage)`.Escalated());
-		// "HELLO, WORLD"
-	}
-}
-```
-
----
-
-# Zusammenfassung
-
-- _"Favor composition over inheritance:"_ Bevorzuge Komposition der Vererbung
-- _Mixins_ erweitern _bestehende_ Klassen _ohne_ eine verwandschaftliche Beziehung herzustellen
-- Für C# gilt:
-	- Mixins können zu einem gewissen Grad mit _extension methods_ realisiert werden.
-	- Die Einbindung einer `ConditionalWeakTable` erlaubt es instanzspezifische Zustandsinformation zu unterhalten.
-	- Extension methods binden, aber überschreiben nicht; es gelten die spezifizierten Sichtbarkeiten
-- Vergleiche auch: Traits in Scala, Mehrfachvererbung in C++ oder Defaultmethoden in Java.
-
----
-
-# Weiterführende Informationen
-
-#### Dokumentation
-
-- <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods>
-
-#### Literatur
-
-- Craig, Iain (2007). Object-Oriented Programming Languages: Interpretation. Springer.
-- Gamma, Erich; Helm, Richard; Johnson, Ralph; Vlissides, John (1994). Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley.
-
-#### Frameworks/Toolkits:
-
-- https://www.postsharp.net/
-- https://github.com/re-motion/Remix

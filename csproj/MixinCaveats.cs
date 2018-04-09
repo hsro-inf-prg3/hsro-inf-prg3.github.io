@@ -1,12 +1,21 @@
 using System;
 
 namespace MixinCaveats {
-    interface Escalatable {
+    class Message {
+        public string Text { get; set; }
+    }
+    interface IEscalatable {
         string Text { get; }
     }
-    class Message : Escalatable {
-        public string Text { get; set; }
 
+    class UnicodeMessage : Message {
+        public string UnicodeText { get; set; }
+    }
+
+    class EscalatableUnicodeMessage : UnicodeMessage, IEscalatable {
+        
+    }
+    class DynamicMessage : Message, IEscalatable {
         public string Escalated1() => Text.ToLower();
     
         public void Sophisticated1(object o) {
@@ -18,7 +27,7 @@ namespace MixinCaveats {
     }
     
     static class MessageMixins {
-        public static string Escalated1(this Escalatable self) 
+        public static string Escalated1(this IEscalatable self) 
             => self.Text.ToUpper();
         
         public static void Sophisticated1(this Message self, int i)
@@ -29,19 +38,19 @@ namespace MixinCaveats {
     }
 
     class Program {
-        static void Main(string[] args) {
-            Message m = new Message();
-            m.Text = "Hello, world";
+        // static void Main(string[] args) {
+        //     DynamicMessage m = new DynamicMessage();
+        //     m.Text = "Hello, world";
 
-            Console.WriteLine(m.Escalated1());  // oops! Message.Escalated1
-            Console.WriteLine((m as Escalatable).Escalated1());  // ah!
+        //     Console.WriteLine(m.Escalated1());  // oops! Message.Escalated1
+        //     Console.WriteLine((m as IEscalatable).Escalated1());  // ah!
 
-            // watch out with automatic type conversion
-            m.Sophisticated1(1);
-            m.Sophisticated1("Hans");
+        //     // watch out with automatic type conversion
+        //     m.Sophisticated1(1);
+        //     m.Sophisticated1("Hans");
 
-            m.Sophisticated2(1);
-            m.Sophisticated2("Hans");
-        }
+        //     m.Sophisticated2(1);
+        //     m.Sophisticated2("Hans");
+        // }
     }
 }

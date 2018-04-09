@@ -1,14 +1,17 @@
 @startuml mixin-diamond-1
 
-class User {
+class Message {
+	+Text(): string
 }
 
-class AdminUser extends User {
-	
+class EscalatedMessage extends Message {
+	+Text(): string
+	+Escalated(): string
 }
 
-class ExternalUser extends User {
-	
+class UnicodeMessage extends Message {
+	+Text(): string
+	+UnicodeText(): string
 }
 
 
@@ -16,24 +19,28 @@ class ExternalUser extends User {
 
 @startuml mixin-diamond-2
 
-class User {
-	
+class Message {
+	+Text(): string
 }
 
-interface Admin {
-	
+interface IEscalatable {
+	+Escalated(): string
 }
 
-class AdminUser extends User implements Admin {
-	
+class EscalatedMessage extends Message implements IEscalatable{
+	+Text(): string
+	+Escalated(): string
 }
 
-class ExternalUser extends User {
-	
+class UnicodeMessage extends Message {
+	+Text(): string
+	+UnicodeText(): string
 }
 
-class ExternalAdminUser extends ExternalUser implements Admin {
-	
+class EscalatedUnicodeMessage extends UnicodeMessage implements IEscalatable {
+	+Text(): string
+	+UnicodeText(): string
+	+Escalated(): string
 }
 
 @enduml

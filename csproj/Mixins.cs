@@ -35,7 +35,7 @@ namespace Mixins {
                 n = 0;
 
             string message = self.Text.ToUpper() + new String('!', (int) n);
-            state_.AddOrUpdate(self, ((int) n)+1);
+            state_.AddOrUpdate(self, 1 + (int) n);
             return message;
         }
     }
