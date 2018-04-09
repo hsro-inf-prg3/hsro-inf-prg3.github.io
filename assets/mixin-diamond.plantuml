@@ -1,0 +1,39 @@
+@startuml mixin-diamond-1
+
+class User {
+}
+
+class AdminUser extends User {
+	
+}
+
+class ExternalUser extends User {
+	
+}
+
+
+@enduml
+
+@startuml mixin-diamond-2
+
+class User {
+	
+}
+
+interface Admin {
+	
+}
+
+class AdminUser extends User implements Admin {
+	
+}
+
+class ExternalUser extends User {
+	
+}
+
+class ExternalAdminUser extends ExternalUser implements Admin {
+	
+}
+
+@enduml

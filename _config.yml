@@ -1,10 +1,10 @@
-title: "Programmieren 3 (inf-prg3)"
-email: korbinian.riedhammer@fh-rosenheim.de
-description: "Materialien zum Pflichtmodul Programmieren 3"
+title: "Softwarearchitektur"
+email: korbinian@ieee.org
+description: "Materialien zum Pflichtmodul Softwarearchitektur"
 baseurl: ""
 url: "https://hsro-inf-wt.github.io"
 exclude: ["LICENSE", "Remarks.md", "examples"]
-github_username: ["sikoried", "baez90"]
+github_username: ["sikoried"]
 
 # Build settings
 markdown: kramdown

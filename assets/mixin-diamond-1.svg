@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="175px" preserveAspectRatio="none" style="width:252px;height:175px;" version="1.1" viewBox="0 0 252 175" width="252px" zoomAndPan="magnify"><defs><filter height="300%" id="f1n4ui5ts2udy6" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--class User--><rect fill="#FEFECE" filter="url(#f1n4ui5ts2udy6)" height="48" id="User" style="stroke: #A80036; stroke-width: 1.5;" width="58" x="91.5" y="8"/><ellipse cx="106.5" cy="24" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M109.4731,29.6431 Q108.8921,29.9419 108.2529,30.0913 Q107.6138,30.2407 106.9082,30.2407 Q104.4014,30.2407 103.0815,28.5889 Q101.7617,26.937 101.7617,23.8159 Q101.7617,20.6865 103.0815,19.0347 Q104.4014,17.3828 106.9082,17.3828 Q107.6138,17.3828 108.2612,17.5322 Q108.9087,17.6816 109.4731,17.9805 L109.4731,20.7031 Q108.8423,20.1221 108.2488,19.8523 Q107.6553,19.5825 107.0244,19.5825 Q105.6797,19.5825 104.9949,20.6492 Q104.3101,21.7158 104.3101,23.8159 Q104.3101,25.9077 104.9949,26.9744 Q105.6797,28.041 107.0244,28.041 Q107.6553,28.041 108.2488,27.7712 Q108.8423,27.5015 109.4731,26.9204 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="26" x="120.5" y="28.5352">User</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="92.5" x2="148.5" y1="40" y2="40"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="92.5" x2="148.5" y1="48" y2="48"/><!--class AdminUser--><rect fill="#FEFECE" filter="url(#f1n4ui5ts2udy6)" height="48" id="AdminUser" style="stroke: #A80036; stroke-width: 1.5;" width="95" x="6" y="116"/><ellipse cx="21" cy="132" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M23.9731,137.6431 Q23.3921,137.9419 22.7529,138.0913 Q22.1138,138.2407 21.4082,138.2407 Q18.9014,138.2407 17.5815,136.5889 Q16.2617,134.937 16.2617,131.8159 Q16.2617,128.6865 17.5815,127.0347 Q18.9014,125.3828 21.4082,125.3828 Q22.1138,125.3828 22.7612,125.5322 Q23.4087,125.6816 23.9731,125.9805 L23.9731,128.7031 Q23.3423,128.1221 22.7488,127.8523 Q22.1553,127.5825 21.5244,127.5825 Q20.1797,127.5825 19.4949,128.6492 Q18.8101,129.7158 18.8101,131.8159 Q18.8101,133.9077 19.4949,134.9744 Q20.1797,136.041 21.5244,136.041 Q22.1553,136.041 22.7488,135.7712 Q23.3423,135.5015 23.9731,134.9204 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="63" x="35" y="136.5352">AdminUser</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="100" y1="148" y2="148"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="100" y1="156" y2="156"/><!--class ExternalUser--><rect fill="#FEFECE" filter="url(#f1n4ui5ts2udy6)" height="48" id="ExternalUser" style="stroke: #A80036; stroke-width: 1.5;" width="105" x="136" y="116"/><ellipse cx="151" cy="132" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M153.9731,137.6431 Q153.3921,137.9419 152.7529,138.0913 Q152.1138,138.2407 151.4082,138.2407 Q148.9014,138.2407 147.5815,136.5889 Q146.2617,134.937 146.2617,131.8159 Q146.2617,128.6865 147.5815,127.0347 Q148.9014,125.3828 151.4082,125.3828 Q152.1138,125.3828 152.7612,125.5322 Q153.4087,125.6816 153.9731,125.9805 L153.9731,128.7031 Q153.3423,128.1221 152.7488,127.8523 Q152.1553,127.5825 151.5244,127.5825 Q150.1797,127.5825 149.4949,128.6492 Q148.8101,129.7158 148.8101,131.8159 Q148.8101,133.9077 149.4949,134.9744 Q150.1797,136.041 151.5244,136.041 Q152.1553,136.041 152.7488,135.7712 Q153.3423,135.5015 153.9731,134.9204 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="73" x="165" y="136.5352">ExternalUser</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="137" x2="240" y1="148" y2="148"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="137" x2="240" y1="156" y2="156"/><!--link User to AdminUser--><path d="M94.8125,73.4068 C85.9137,87.751 76.2362,103.3507 68.4859,115.8436 " fill="none" id="User-AdminUser" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="88.9722,69.5424,105.4639,56.2373,100.8688,76.9227,88.9722,69.5424" style="stroke: #A80036; stroke-width: 1.0;"/><!--link User to ExternalUser--><path d="M146.5709,73.4068 C155.6025,87.751 165.4245,103.3507 173.2904,115.8436 " fill="none" id="User-ExternalUser" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="140.4932,76.8917,135.7605,56.2373,152.3405,69.4323,140.4932,76.8917" style="stroke: #A80036; stroke-width: 1.0;"/><!--
+@startuml mixin-diamond-1
+
+class User {
+}
+
+class AdminUser extends User {
+	
+}
+
+class ExternalUser extends User {
+	
+}
+
+
+@enduml
+
+PlantUML version 1.2017.16(Sun Sep 03 12:53:37 CEST 2017)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 1.8.0_144-b01
+Operating System: Mac OS X
+OS Version: 10.13.4
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

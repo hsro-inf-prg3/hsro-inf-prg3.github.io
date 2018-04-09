@@ -135,7 +135,8 @@ img {
 .site-header {
   border-bottom: 1px solid #e8e8e8;
   min-height: 56px;
-  background-color: rgb(243, 145, 0);
+  /* background-color: rgb(243, 145, 0); */
+  background-color: rgb(22, 71, 154);
 }
 
 .site-title,
