@@ -1,8 +1,8 @@
-title: "Softwarearchitektur"
-email: korbinian@ieee.org
-description: "Materialien zum Pflichtmodul Softwarearchitektur"
+title: "Fortgeschrittene Programmierkonzepte (FPK)"
+email: korbinian.riedhammer@fh-rosenheim.de
+description: "Materialien zum Pflichtmodul Fortgeschrittene Programmierkonzepte"
 baseurl: ""
-url: "https://hsro-inf-wt.github.io"
+url: "https://hsro-inf-fpk.github.io"
 exclude: ["LICENSE", "Remarks.md", "examples"]
 github_username: ["sikoried"]
 
