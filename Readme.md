@@ -6,17 +6,18 @@ _Required class for [CS majors](https://www.fh-rosenheim.de/technik/informatik-m
 
 ## Class Schedule
 
-**Lecture**: Wednesdays at 8a
+**Lecture**: Thursdays at 8a
 
-**Tutorials**: Wednesdays at 9.45a/11.45a/1.45p; adjunct lecturer: Peter Kurfer
+**Tutorials**: Thursdays at 11.45a/1.45p/3.30p; tutor: Peter Kurfer
 
 **Comunication** via [Mattermost](https://inf-mattermost.fh-rosenheim.de/inf-prg3/channels/town-square) ([invite](https://inf-mattermost.fh-rosenheim.de/signup_user_complete/?id=c8n9474tq3dm8mjn7cse1xsesa)).
 
-_Note: Materials will be in English, the lectures/tutorials will be taught in German; the written exam will be bilingual (use the language of your choice)._
+_Note: Materials will be in English, the lectures/tutorials will be taught in German; the written exam will be German (you may answer in English)._
 
 
 ## Class and Credits (_Leistungsnachweis_)
-Lectures: Not your classic lecture--- we'll work together on concrete problems and their solution. The class will be taught in German, the materials are mostly in English.
+Lectures: Not your classic lecture--- we'll work together on concrete problems and their solution. 
+The class will be taught in German, the materials are mostly in English.
 
 Tutorials and assignments: Pairprogramming preferred, [_BYOD_](https://en.wikipedia.org/wiki/Bring_your_own_device) strongly recommended!
 
@@ -24,11 +25,17 @@ Credits: written exam (90') at the end of the semester.
 
 
 ## Recommended Textbooks
+
 - Bloch: [Effective Java](https://www.amazon.de/Effective-Java-2nd-Programming-Language/dp/0321356683/)
 - Oaks: [Java Performance](https://www.amazon.de/Java-Performance-The-Definitive-Guide/dp/1449358454/)
 - Gamma _et al._: [Design Patterns](https://www.amazon.de/Patterns-Elements-Reusable-Object-Oriented-Software/dp/0201633612/)
 - Subramaniam: [Functional Programming in Java](https://www.amazon.de/Functional-Programming-Java-Harnessing-Expressions/dp/1937785467/)
 - Siedersleben: [Moderne Softwarearchitektur](https://www.amazon.de/Moderne-Software-Architektur-Umsichtig-planen-robust/dp/3898642925/)
+
+
+### Additional Materials
+
+- Peter's [UML/PlantUML guide](./plantuml-guide)
 
 
 ## Syllabus
@@ -95,8 +102,6 @@ Credits: written exam (90') at the end of the semester.
 
 	_TBA_.
 
-## Additionals
 
-- [UML/PlantUML guide](./plantuml-guide)
 
 _Subscribe to [https://github.com/hsro-inf-prg3/hsro-inf-prg3.github.io](https://github.com/hsro-inf-prg3) repository to follow updates._
