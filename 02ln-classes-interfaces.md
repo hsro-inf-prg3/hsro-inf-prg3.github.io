@@ -51,10 +51,10 @@ Typically, you will group your classes and interfaces into coherent _modules_, t
 Packages are organized in a hierarchical way, similar to a filesystem: while the identifier uses `.` as a separator, each level "down" will be in the according directory.
 For example, the package `de.fhro.inf.prg3` would correspond to the directory `de/fhro/inf/prg3`, and Java files inside that directory need to have the preamble `package de.fhro.inf.prg3` to alert the compiler of the package this class belongs to.
 
-Now recall the visibility modifiers that are defined in Java:
+Now recall the [visibility modifiers that are defined in Java](https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html):
 - `public`: visible everywhere (apply to class, attributes or methods)
 - `private`: visible only within the class (apply to attributes or methods)
-- `protected`: visible within the class **and** in derived classes (apply to attributes or methods; more next week)
+- `protected`: visible within the class, package **and** in derived classes (apply to attributes or methods; more next week)
 - _(no modifier)_: visible within the _package_, but not visible outside of the package (apply to class, attributes or methods)
 
 Both of these features combined yield excellent information hiding:
@@ -127,16 +127,49 @@ Since Java 9, you can use the `private` keyword to implement regular and static 
 
 ```java
 interface Itfc {
-	void a() {
+	default void a() {
 		System.out.println("Hello, I'm (a)");
 		c();
 	}
-	void b() {
+	default void b() {
 		System.out.println("Hello, I'm (b)");
 		c();
 	}
 	private void c() {
-		System.out.println("Yay, only implemented once!")
+		System.out.println("Yay, (c) only implemented once!");
+	}
+
+	// same for static
+	static void d() {
+		System.out.println("Hello, I'm (d)");
+		f();
+	}
+	static void e() {
+		System.out.println("Hello, I'm (e)");
+		f();
+	}
+	private static void f() {
+		System.out.println("Yay, (f) only implemented once!");
+	}
+}
+```
+
+### Name Conflicts
+
+Since in Java classes can implement multiple interfaces, you may end up with a name conflict:
+
+```java
+interface Itfc1 {
+	default void greet() { System.out.println("Servus"); }
+}
+interface Itfc2 {
+	default void greet() { System.out.println("Moin"); }
+}
+
+// must implement `greet()` to resolve name conflict
+class Example implements Itfc1, Itfc2 {
+	public void greet() {
+		Itfc2.super.greet();  // use super to specify which implementation
 	}
 }
 ```
