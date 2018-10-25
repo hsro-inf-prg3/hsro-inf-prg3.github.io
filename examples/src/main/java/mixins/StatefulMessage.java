@@ -1,7 +1,7 @@
 package mixins;
 
 
-public class StatefulMessage extends StatefulObject implements StatefulEscalate2 {
+public class StatefulMessage extends StatefulObject implements StatefulEscalate2, StatefulConfusable {
 	private String m;
 
 	public StatefulMessage(String m) {
@@ -22,5 +22,9 @@ public class StatefulMessage extends StatefulObject implements StatefulEscalate2
 		System.out.println(m2.escalated());
 		System.out.println(m2.escalated());
 		System.out.println(m2.escalated());
+
+		System.out.println(m1.confuse());
+		System.out.println(m1.confuse());
+		System.out.println(m2.confuse());
 	}
 }
