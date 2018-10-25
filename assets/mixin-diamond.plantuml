@@ -1,17 +1,17 @@
 @startuml mixin-diamond-1
 
 class Message {
-	+Text(): string
+	+text(): String
 }
 
 class EscalatedMessage extends Message {
-	+Text(): string
-	+Escalated(): string
+	+text(): String
+	+escalated(): String
 }
 
 class UnicodeMessage extends Message {
-	+Text(): string
-	+UnicodeText(): string
+	+text(): String
+	+utf8(): String
 }
 
 
@@ -20,27 +20,27 @@ class UnicodeMessage extends Message {
 @startuml mixin-diamond-2
 
 class Message {
-	+Text(): string
+	+text(): String
 }
 
-interface IEscalatable {
-	+Escalated(): string
+interface Escalatable {
+	+escalated(): String
 }
 
-class EscalatedMessage extends Message implements IEscalatable{
-	+Text(): string
-	+Escalated(): string
+class EscalatedMessage extends Message implements Escalatable{
+	+text(): String
+	+escalated(): String
 }
 
 class UnicodeMessage extends Message {
-	+Text(): string
-	+UnicodeText(): string
+	+text(): String
+	+utf8(): String
 }
 
-class EscalatedUnicodeMessage extends UnicodeMessage implements IEscalatable {
-	+Text(): string
-	+UnicodeText(): string
-	+Escalated(): string
+class EscalatedUnicodeMessage extends UnicodeMessage implements Escalatable {
+	+text(): String
+	+escalated(): String
+	+utf8(): String
 }
 
 @enduml
