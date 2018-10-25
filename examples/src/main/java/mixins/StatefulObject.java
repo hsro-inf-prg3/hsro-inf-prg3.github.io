@@ -8,15 +8,17 @@ public class StatefulObject implements Stateful {
 			= new WeakHashMap<>();
 
 	@Override
-	public final Object getState(Class clazz, Object initial) {
+	@SuppressWarnings("unchecked")  // shhh... :-)
+	public final <T> T getState(Class clazz, T initial) {
 		if (!states.containsKey(this))
 			states.put(this, new HashMap<>());
 
-		return states.get(this).getOrDefault(clazz, initial);
+		// cast necessary, since internally we store Object!
+		return (T) states.get(this).getOrDefault(clazz, initial);
 	}
 
 	@Override
-	public final void setState(Class clazz, Object s) {
+	public final <T> void setState(Class clazz, T s) {
 		if (!states.containsKey(this))
 			states.put(this, new HashMap<>());
 
