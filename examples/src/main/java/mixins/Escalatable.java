@@ -4,9 +4,9 @@ import java.util.WeakHashMap;
 import java.util.stream.Stream;
 
 public interface Escalatable {
-	String getText();
+	String text();
 
 	default String escalated() {
-		return getText().toUpperCase();
+		return text().toUpperCase();
 	}
 }

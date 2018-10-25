@@ -3,7 +3,7 @@ package mixins;
 public class Message {
 	private String m;
 
-	public String getText() {
+	public String text() {
 		return m;
 	}
 }

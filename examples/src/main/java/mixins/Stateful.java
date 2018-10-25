@@ -1,6 +1,6 @@
 package mixins;
 
 public interface Stateful {
-	Object getState(Object ref, Class clazz, Object initial);
-	void setState(Object ref, Class clazz, Object state);
+	Object getState(Class clazz, Object initial);
+	void setState(Class clazz, Object state);
 }

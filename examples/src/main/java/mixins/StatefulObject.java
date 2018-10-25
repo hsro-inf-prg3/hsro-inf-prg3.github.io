@@ -4,21 +4,22 @@ import java.util.HashMap;
 import java.util.WeakHashMap;
 
 public class StatefulObject implements Stateful {
-	private WeakHashMap<Object, HashMap<Class, Object>> state = new WeakHashMap<>();
+	private WeakHashMap<Object, HashMap<Class, Object>> states
+			= new WeakHashMap<>();
 
 	@Override
-	public final Object getState(Object ref, Class clazz, Object initial) {
-		if (!state.containsKey(ref))
-			state.put(ref, new HashMap<>());
+	public final Object getState(Class clazz, Object initial) {
+		if (!states.containsKey(this))
+			states.put(this, new HashMap<>());
 
-		return state.get(this).getOrDefault(clazz, initial);
+		return states.get(this).getOrDefault(clazz, initial);
 	}
 
 	@Override
-	public final void setState(Object ref, Class clazz, Object o) {
-		if (!state.containsKey(ref))
-			state.put(ref, new HashMap<>());
+	public final void setState(Class clazz, Object s) {
+		if (!states.containsKey(this))
+			states.put(this, new HashMap<>());
 
-		state.get(this).put(clazz, o);
+		states.get(this).put(clazz, s);
 	}
 }

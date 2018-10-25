@@ -3,14 +3,18 @@ package mixins;
 import java.util.stream.Stream;
 
 public interface StatefulEscalate2 extends Stateful {
-	String getText();
+	String text();
 
 	default String escalated() {
-		int n = (Integer) getState(this, StatefulEscalate2.class, 0);
+		int n = (Integer) getState(StatefulEscalate2.class, 0);
+		setState(StatefulEscalate2.class, n+1);
 
-		setState(this, StatefulEscalate2.class, n+1);
+		// generate n bangs, or empty strings for n=0
+		String bangs = Stream.generate(() -> "!")
+				.limit(n)
+				.reduce("", (a, b) -> a + b);
 
-		return getText().toUpperCase() +
-				Stream.generate(() -> "!").limit(n).reduce("", (a, b) -> a + b);
+		return text().toUpperCase() + bangs;
+
 	}
 }

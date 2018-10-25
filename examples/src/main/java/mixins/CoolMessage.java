@@ -8,14 +8,14 @@ public class CoolMessage implements Escalatable, Unicodable {
 	}
 
 	@Override
-	public String getText() {
+	public String text() {
 		return m;
 	}
 
 	public static void main(String[] args) {
 		CoolMessage cm = new CoolMessage("\uD83D\uDE08");
 
-		System.out.println(cm.getText());
+		System.out.println(cm.text());
 		System.out.println(cm.escalated());
 		System.out.println(cm.escalated());
 		System.out.println(cm.escalated());

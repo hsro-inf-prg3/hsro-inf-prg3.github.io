@@ -8,8 +8,7 @@ public class StatefulMessage extends StatefulObject implements StatefulEscalate2
 		this.m = m;
 	}
 
-	@Override
-	public String getText() {
+	public String text() {
 		return m;
 	}
 

@@ -3,9 +3,9 @@ package mixins;
 import java.nio.charset.Charset;
 
 public interface Unicodable {
-	String getText();
+	String text();
 
 	default byte[] utf8() {
-		return getText().getBytes(Charset.forName("UTF-8"));
+		return text().getBytes(Charset.forName("UTF-8"));
 	}
 }
