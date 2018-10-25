@@ -132,7 +132,7 @@ class SimpleStringIntMapImpl extends SimpleMapImpl {
 ```java
 class App {
 	public static void main(String[] args) {
-		Map map = new SimpleStringIntMapImpl();
+		SimpleStringIntMapImpl map = new SimpleStringIntMapImpl();
 		map.put("Hans", 14235);
 		Integer hans = map.get("Hans");  // e voila!
 	}
@@ -145,7 +145,7 @@ Consider this example, which perfectly compiles:
 ```java
 class App {
 	public static void main(String[] args) {
-		Map map = new SimpleStringIntMapImpl();
+		Map map = new SimpleStringIntMapImpl();  // nota bene: Map!
 		map.put("Schleichmichl", "DROP TABLE matrikel");
 		Integer schleichmichl = map.get("Schleichmichl");
 	}
