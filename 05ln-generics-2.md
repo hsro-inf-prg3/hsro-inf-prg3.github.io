@@ -91,10 +91,99 @@ class App {
 ```
 
 Sweet!
+But unfortunately, we require the implementation (and logic) of the `howOften` in the _class_ although it belongs to the _mixin_.
+What we need is a way for the mixin to store and retrieve its state with the object.
+This is where we can make use of inheritance and interfaces as well as generic methods.
+
+First, we specify an interface `Stateful`, that specifies generic methods to store and retrieve the state.
+We use the `Class` object as key to store the state information and provide an `initial` value for the get method.
+The generic method allows us to avoid casts from `Object` to our actual state object.
+
+```java
+interface Stateful {
+	<T> T getState(Class clazz, T initial);
+	<T> void setState(Class clazz, T state);
+}
+```
+
+Next, we create a `StatefulObject` that implements the `Stateful` interface, marking the methods `final` (since the mechanism is to be kept fixed).
+
+```java
+class StatefulObject implements Stateful {
+	// note: we store the state for each mixin as Object!
+	private HashMap<Class, Object> states
+			= new HashMap<>();
+
+	public final <T> T getState(Class clazz, T initial) {
+		// cast necessary, since internally we store Object!
+		return (T) states.getOrDefault(clazz, initial);
+	}
+
+	public final <T> void setState(Class clazz, T s) {
+		states.put(clazz, s);
+	}
+}
+```
+
+For our mixin, we now `extend` the `Stateful` interface to access the state:
+
+```java
+interface Escalatable extends Stateful {
+	String text();
+
+	default String escalated() {
+		// generics magic!
+		int n = getState(StatefulEscalate2.class, 0);
+		setState(StatefulEscalate2.class, n+1);
+
+		// generate n bangs, or empty strings for n=0
+		String bangs = Stream.generate(() -> "!")
+				.limit(n)
+				.reduce("", (a, b) -> a + b);
+
+		return text().toUpperCase() + bangs;
+	}
+}
+```
+
+For the actual class to attach the mixin to, we `extend StatefulObject`, since the mechanism to store and retrieve state is the same.
+
+```java
+public class StatefulMessage 
+		extends StatefulObject    // manages state
+		implements Escalatable {  // uses state
+	private String m;
+
+	public StatefulMessage(String m) { this.m = m; }
+
+	public String text() { return m; }
+}
+```
+
+```java
+class App {
+	public static void main(String[] args) {
+		StatefulMessage m1 = new StatefulMessage("Hans");
+		StatefulMessage m2 = new StatefulMessage("Dampf");
+
+		System.out.println(m1.escalated());  // HANS
+		System.out.println(m1.escalated());  // HANS!
+		System.out.println(m1.escalated());  // HANS!!
+		System.out.println(m2.escalated());  // DAMPF
+		System.out.println(m2.escalated());  // DAMPF!
+		System.out.println(m2.escalated());  // DAMPF!!
+	}
+}
+```
+
+This way, we utilize inheritance of classes (and interfaces) and generic methods, with relatively little impact on the overall class hierarchy:
+
+![Mixin Stateful](/assets/mixin-stateful.svg)
 
 
 # Generics and Inheritance
 
+Speaking of inheritance and generics.
 Recall a principal property of inheritance: an instance of a subclass (e.g. `java.lang.Integer`) can be assigned to a reference of the base class (e.g. `java.lang.Number`); the same holds for arrays:
 
 ```java
@@ -115,7 +204,8 @@ ArrayList<Integer> is = new ArrayList<>();
 as = is;  // compiler error: incompatible types!
 ```
 
-Which yields a compiler error, even if you try to type-cast it: 
+Which yields a compiler error, even if you try to type-cast it:
+
 > Incompatible types, required `ArrayList<Number>`, found `ArrayList<Integer>`.
 
 In other words: two instances of the same generic classes are unrelated, even if their type arguments are related.
