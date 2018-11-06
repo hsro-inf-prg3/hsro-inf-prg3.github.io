@@ -119,19 +119,16 @@ public interface Stateful {
 
 public class StatefulObject implements Stateful {
 	// object -> interface -> state object
-	private WeakHashMap<Object, HashMap<Class, Object>> state 
-		= new WeakHashMap<>();
+	private HashMap<Class, Object> state 
+		= new HashMap<>();
 	@Override
 	public `final` <T> T getState(Class clazz, T initial) {
-		if (!state.containsKey(this)) state.put(this, new HashMap<>());
-
 		// cast necessary, since internally we store Object
-		return (T) state.get(this).getOrDefault(clazz, initial);
+		return (T) state.getOrDefault(clazz, initial);
 	}
 	@Override
 	public `final` <T> void setState(Class clazz, T o) {
-		if (!state.containsKey(this)) state.put(this, new HashMap<>());
-		state.get(this).put(clazz, o);
+		state.put(clazz, o);
 	}
 }
 ```
