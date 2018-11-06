@@ -18,6 +18,128 @@ layout: true
 
 ---
 
+<h1>Mixins, part one.</h1>
+
+### Aspected Oriented Programming
+
+---
+
+# Review: Decorator Pattern
+
+---
+
+# Decorator Pattern
+
+Extend ("decorate") functionality of classes while maintaining primary signature.
+
+<div>
+    <div style="float: left; width: 45%; height: 100%">
+        <img alt="decorator pattern" src="../assets/dp-decorator.svg" style="width: 100%">
+    </div>
+    <div style="width: 55%; float: left">
+        <ul>
+            <li>Shared base class or interface</li>
+            <li><span class="remark-code remark-code-line">Delegate</span> calls</li>
+            <li>Add/overload methods as needed</li>
+            <li>Great for cascaded processing</li>
+        </ul>
+    </div>
+</div>
+
+<div style="clear: both"></div>
+
+```java
+FileInputStream fis = new FileInputStream("/objects.gz");
+BufferedInputStream bis = new BufferedInputStream(fis);
+GzipInputStream gis = new GzipInputStream(bis);
+ObjectInputStream ois = new ObjectInputStream(gis);
+SomeObject someObject = (SomeObject) ois.readObject();
+```
+
+---
+
+# Review: Inheritance and Interfaces
+
+---
+
+# Inheritance and Interfaces
+
+Example:
+
+- Send text messages (`Message`)
+- `EscalatedMessage` by using all-caps (_scream_).
+- `UnicodeMessage` for fancy smileys 😎
+
+.center[
+<img src="../assets/mixin-diamond-1.svg">
+]
+
+#### How about _escalatable_ _unicode_ messages?
+
+
+---
+
+# Review: Inheritance and Interfaces
+
+To maintain the type hierary, add an interface `Escalatable` to allow for `is-a Escalatable`.
+
+.center[
+<img src="../assets/mixin-diamond-2.svg">
+]
+
+#### Drawback: Code duplication!
+
+---
+
+# Mixins
+
+In OOP, _mixins_ are constructs that
+
+- can be included with other classes without being a base class
+- only make sense in combination with the target class
+
+
+#### Objective
+
+- **Single** implementation for all classes
+- `has-a`/`can-do` instead of `is-a`
+
+#### Related Topics
+
+- _Aspect Oriented Programming (AOP)_
+- _Dependency Inversion_
+
+---
+
+<h1>Mixins in Java</h1>
+
+Use `default` methods!
+
+```java
+public `interface` Escalated {
+    String getText();
+    `default` String escalated() {
+        return getText.ToUpper();
+    }
+}
+public class Message `implements Escalated` {
+    private String m;
+    public Message(String m) { this.m = m; }
+
+    public String getText() {
+        return m;
+    }
+}
+```
+
+
+```java
+Message m = new Message("Hello World");
+System.out.println(`m.escalated()`);       // "HELLO, WORLD"
+```
+
+---
+
 # Generics, part one.
 
 - Generic classes and interfaces

@@ -11,10 +11,13 @@ public interface StatefulEscalate1 {
 
 	default String escalated() {
 		int n = state.getOrDefault(this, 0);
-
 		state.put(this, n+1);
 
-		return getText().toUpperCase() +
-				Stream.generate(() -> "!").limit(n).reduce("", (a, b) -> a + b);
+		String bangs = Stream.generate(() -> "!")
+				.limit(n)
+				.reduce("", (a, b) -> a + b);
+
+		return getText().toUpperCase() + bangs;
+
 	}
 }

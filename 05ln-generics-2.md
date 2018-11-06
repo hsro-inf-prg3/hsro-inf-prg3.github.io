@@ -1,7 +1,97 @@
 ---
-title: Generics, Pt. 2
+title: "Mixins, Pt. 2; Generics, Pt. 2"
 permalink: /05ln-generics-2/
 ---
+
+# Mixins, part two.
+
+[Last week](/04ln-generics-1/), we showed how we can use default methods in interfaces to augment classes by certain functionality:
+
+```java
+interface Escalatable {
+	String text();
+
+	default String escalate() {
+		return text().toUpperCase();
+	}
+}
+```
+```java
+class Message implements Escalatable {
+	private String t;
+	Message(String t) { this.t = t; }
+
+	public String text() { 
+		return t; 
+	}
+}
+```
+
+Conceptually, the difference between inheritance and mixins is that the latter are meaningless on its own and can be attached to otherwise unrelated classes.
+On the other hand, inheritance is used if there is a strong relation between the classes.
+
+The main issue with the above realization of mixins is the lack of _state_: since the iterfaces cannot have attributes, the only way to read/write data would be through (`public`) setters/getters.
+
+Let's get back to the above example; let's say, you want to gradually escalate your shouting.
+For example:
+
+```java
+Message m = new Message("hey");
+
+m.escalate();  // "HEY"
+m.escalate();  // "HEY!"
+m.escalate();  // "HEY!!"
+m.escalate();  // "HEY!!!"
+```
+
+This would require your `escalate` method to remember how often it was called, and add more bangs each time.
+Well fair enough, we'll use the same mechanis as for the `text`:
+
+```java
+interface Escalatable {
+	String text();   // to get the string
+	int howOften();  // implementing class must handle counting!
+	default String escalate() {
+		int n = howOften();
+
+		// n bangs in a row
+		String bangs = Stream.generate(() -> "!")
+				.limit(n)
+				.reduce("", (a, b) -> a + b);
+
+		return text + bangs;
+	}
+}
+```
+```java
+class Message implements Escalatable {
+	private String t;
+	Message(String t) { this.t = t; }
+
+	public String text() { return t; }
+
+	// counter
+	private int n = 0;
+	public int howOften() {
+		return n++;
+	}
+}
+```
+```java
+class App {
+	public static void main(String[] args) {
+		Message m = new Message("Hey");
+
+		m.escalate();  // "HEY"
+		m.escalate();  // "HEY!"
+		m.escalate();  // "HEY!!"
+		m.escalate();  // "HEY!!!"
+	}
+}
+```
+
+Sweet!
+
 
 # Generics and Inheritance
 

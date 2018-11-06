@@ -9,7 +9,7 @@ public class StatefulObject implements Stateful {
 
 	@Override
 	@SuppressWarnings("unchecked")  // shhh... :-)
-	public final <T> T getState(Class clazz, T initial) {
+	public final <T> T getState(Class<?> clazz, T initial) {
 		if (!states.containsKey(this))
 			states.put(this, new HashMap<>());
 
@@ -18,7 +18,7 @@ public class StatefulObject implements Stateful {
 	}
 
 	@Override
-	public final <T> void setState(Class clazz, T s) {
+	public final <T> void setState(Class<?> clazz, T s) {
 		if (!states.containsKey(this))
 			states.put(this, new HashMap<>());
 

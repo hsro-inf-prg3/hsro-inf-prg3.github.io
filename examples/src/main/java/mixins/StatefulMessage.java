@@ -1,7 +1,8 @@
 package mixins;
 
 
-public class StatefulMessage extends StatefulObject implements StatefulEscalate2, StatefulConfusable {
+public class StatefulMessage extends StatefulObject
+		implements StatefulEscalate2, StatefulConfusable {
 	private String m;
 
 	public StatefulMessage(String m) {

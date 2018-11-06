@@ -1,13 +1,127 @@
 ---
-title: Generics, Pt. 1
+title: "Mixins, Pt.1; Generics, Pt. 1"
 permalink: /04ln-generics-1/
 ---
+
+# Mixins, part one.
+
+In the past two weeks, we reviewed [classes and interfaces](/02ln-classes-interfaces/) as well as [inheritance and abstract classes](/03ln-inheritance/).
+The Decorator pattern was a good example, how abstract classes (or interfaces) can be used to add functionality to existing classes _while maintaining the original class contract_.
+A related pattern is the _Mixin_, which allows to add functionality to a class without inheritance (thus, no shared class contract).
+
+Consider the following example:
+You would like to implement the data model for an instant messenger, and start with a basic class `Message` to store the text.
+
+```java
+class Message {
+	private String t;
+
+	public Message(String t) { this.t = t; }
+
+	public String text() {
+		return t;
+	}
+}
+```
+
+Soon after, you realize that people sometimes need to shout at each other, which on the internet happens as [all-caps](https://www.netlingo.com/word/shouting.php).
+
+```java
+class EscalatedMessage extends Message {
+	public EscalatedMessage(String t) { super(t); }
+	public String escalated() { 
+		return text().toUpperCase();  // HEY I'M SHOUTING AT YOU!
+	}
+}
+```
+
+Also, it seems people love sending emoticons 😄, which turn out to be nothing more than [unicode charaters](https://en.wikipedia.org/wiki/Emoticons_(Unicode_block)), which need to be coded into byte arrays to send them over the internet.
+
+```java
+class UnicodeMessage extends Message {
+	public UnicodeMessage(String t) { super(t); }
+	public byte[] utf8() {
+		return text().getBytes(Charset.forName("UTF-8"));
+	}
+}
+```
+
+So far so good, here's our small world:
+
+![Messages](../assets/mixin-diamond-1.svg)
+
+But what if you want to SHOUT WITH EMOTICONS 😈😈???
+If Java were to support multiple inheritance, we could do the following
+
+```java
+class EscalatedUnicodeMessage extends EscalatedMessage, UnicodeMessage {
+	// nope, not in Java...
+}
+```
+
+Looking closer at both subclasses, you can see that they are foremost about extending the _behavior_ (methods) and not the _model_ (attributes).
+So what we actually want is to augment `Message` by further functionality-- which we can do using `default` methods in interfaces.
+The data required for the functionality is then injected using non-default methods:
+
+```java
+interface Escalatable {
+	// this is where we will get the data needed for our functionality
+	String text();
+
+	// this is the actual code, implemented only once!
+	default String escalate() {
+		// yes, we can refer to non-default methods here
+		return text().toUpperCase();
+	}
+}
+```
+```java
+interface Unicodable {
+	String text();
+	default byte[] utf8() {
+		return text().getBytes(Charset.forName("UTF-8"));
+	}
+}
+```
+
+Attaching those interfaces to the `Message` class _mixes in_ the functionality:
+
+```java
+class Message implements Escalatable, Unicodable {
+	private String t;
+	public Message(String t) { this.t = t; }
+
+	// required by both interfaces
+	public String text() { 
+		return t; 
+	}
+
+	// that's it, all done!
+}
+```
+
+```java
+class App {
+	public static void main(String... args) {
+		Message m = new Message("Hans");
+
+		System.out.println(m.text());      // "Hans"
+		System.out.println(m.escalate());  // "HANS"
+		byte[] data = m.utf8();
+	}
+}
+```
+
+This way of adding functionality (not attributes!) to a class is called a _mixin_.
+Related topics are _aspect oriented programming_, which focuses on functionality rather than objects/relations, and _dependency inversion_, where both high- and low-level modules depend on abstractions.
+
+
 
 # Generics, part one.
 
 > Note: Many of the following concepts and rules also apply to other languages that support generics, such as Scala or C++.
 
-The example data structur for this class will be a _map_.
+The example data structure for this class will be a _map_.
 Unlike a _list_ which stores data in a (fixed) sequential order, a _map_ is an associative container that stores a certain _value_ for a certain (unique) _key_.
 Compare the basic interfaces:
 

@@ -53,14 +53,15 @@ Credits: written exam (90') at the end of the semester.
 	We talk about abstract and final classes, (pure) virtual functions and defaults.
 	Also, when (and how) to use abstract base classes, and how the Decorator pattern can be used to add functionality to existing classes.
 
-- **Generics, pt. 1 (Oct 25, [slides](/04s-generics-1/), [lecture notes](/04ln-generics-1/), [assignments](https://github.com/hsro-inf-prg3/04-generics))**
+- **Mixins, pt. 1; Generics, pt. 1 (Oct 25, [slides](/04s-generics-1/), [lecture notes](/04ln-generics-1/), [assignments](https://github.com/hsro-inf-prg3/04-generics))**
 	
-	After a short digression to [Mixins](/99s-mixins/), we dig into the details of how generics work in Java, and how to apply them to data structures and algorithms.
+	After a short digression to Mixins, we dig into the details of how generics work in Java, and how to apply them to data structures and algorithms.
 
 > No class and assignments on Nov 1 (All Saints/Allerheiligen).
 
-- **Generics, pt. 2(Nov 8, [slides](/05s-generics-2/), [lecture notes](/05ln-generics-2/), [assignments](https://github.com/hsro-inf-prg3/05-generic-bounds))**
+- **Mixin, pt. 2; Generics, pt. 2(Nov 8, [slides](/05s-generics-2/), [lecture notes](/05ln-generics-2/), [assignments](https://github.com/hsro-inf-prg3/05-generic-bounds))**
 	
+	We'll review Mixins and see how to use generics to make them stateful.
 	Generics and inheritance need special attention, and will lead us to bounds and wildcards.
 
 - **Reflection and Annotations (Nov 15, [slides](/06s-reflection-annotations/), [lecture notes](/06ln-reflection-annotations/), [assignments](https://github.com/hsro-inf-prg3/06-annotations-reflection))**
