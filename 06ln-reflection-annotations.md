@@ -5,7 +5,7 @@ permalink: /06ln-reflection-annotations/
 
 # Reflection
 
-_Type introspection_ is the ability of programming languages to determine the type (or its properties) of an arbitrary at runtime.
+_Type introspection_ is the ability of programming languages to determine the type (or its properties) of an arbitrary object at runtime.
 Java takes this concept one step further with _reflection_, allowing not only to determine the type at runtime, but also modifying it.
 
 At its core, reflection builds on `java.lang.Class`, a generic class that _is_ the definition of classes (which we already came across in the [previous chapter](/04ln-generics-1/)).
