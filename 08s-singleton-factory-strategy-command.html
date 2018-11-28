@@ -16,6 +16,8 @@ layout: true
     <a href="https://github.com/sikoried"><span class="username">sikoried</span></a>
 </footer>
 
+
+
 ---
 
 # Design Patterns, pt. 2
@@ -37,6 +39,49 @@ Korbinian Riedhammer
 Structure to enforce the use of a _unique_ instance.
 
 ![dp-singleton](/assets/dp-singleton.svg)
+
+---
+
+# Strategy
+
+---
+
+# Strategy
+
+![kara-explore](/assets/kara-explore.png)
+
+---
+
+# Strategy
+
+```java
+public class Kara extends JavaKaraProgram {
+	public static void main(String[] args) throws Exception {
+		Kara k = new Kara();
+		k.run("src/main/resources/world2.world");
+	}
+
+	@Override
+	public void myMainProgram() {
+		kara.move();        // one step forward
+		kara.turnLeft();    // you guessed it...
+		kara.turnRight();
+		kara.treeFront();   // tree ahead?
+		kara.putLeaf();     // take a clover leaf
+		kara.removeLeav();  // remove a clover leaf		
+	}
+}
+```
+
+How place leafs on every field?
+
+---
+
+# Strategy
+
+Mechanism to provide different implementations to achieve the same outcome.
+
+![dp-strategy](/assets/dp-strategy.svg)
 
 ---
 
@@ -100,24 +145,6 @@ System.out.println(root);
 Structure to enforce the use of abstract factories and products, by hiding the actual instantiation of the concrete factory and products.
 
 ![dp-factory](/assets/dp-abstract-factory.svg)
-
----
-
-# Strategy
-
----
-
-# Strategy
-
-![kara-explore](/assets/kara-explore.png)
-
----
-
-# Strategy
-
-Mechanism to provide different implementations to achieve the same outcome.
-
-![dp-strategy](/assets/dp-strategy.svg)
 
 ---
 

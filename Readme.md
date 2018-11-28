@@ -72,7 +72,7 @@ Credits: written exam (90') at the end of the semester.
 
 	We begin with a few basic patterns: composite, iterator and observer, and use that to dive into Android and MVC/MVVC.
 
-- **Design patterns, pt. 2 (Nov 29, [slides](/08s-singleton-factory-strategy-command/), [lecture notes](/08ln-singleton-factory-strategy-command/), [assignments](https://github.com/hsro-inf-prg3/08-singleton-factory-strategy))**
+- **Design patterns, pt. 2 (Nov 29, [slides](/08s-singleton-factory-strategy-command/), [lecture notes](/08ln-singleton-factory-strategy-command/), [assignments](https://github.com/hsro-inf-prg3/08-singleton-factory-strategy-jfx))**
 
 	We look at more every-day-patterns: singleton, factory, strategy and command.
 

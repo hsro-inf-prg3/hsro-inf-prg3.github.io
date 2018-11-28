@@ -96,15 +96,15 @@ enum Singleton {
 	// specify more attributes, e.g. a counter
 	int counter = 0;
 
-	public int getCount() {
+	public int nextInt() {
 		return counter++;
 	}
 }
 ```
 ```java
-System.out.println(Singleton.INSTANCE.getCount());  // "0"
-System.out.println(Singleton.INSTANCE.getCount());  // "1"
-System.out.println(Singleton.INSTANCE.getCount());  // "2"
+System.out.println(Singleton.INSTANCE.nextInt());  // "0"
+System.out.println(Singleton.INSTANCE.nextInt());  // "1"
+System.out.println(Singleton.INSTANCE.nextInt());  // "2"
 ```
 
 Why woud you do this? ¯\\_(ツ)_/¯
@@ -137,6 +137,110 @@ For advanced developers: Favor [_dependency injection_](https://en.wikipedia.org
 - Event busses and dispatch queues
 - Device handles (there is only 1 physical device, e.g. `System.out`)
 - Service objects (eg. API wrappers, ...)
+
+
+
+---
+
+# Strategy
+
+# A Basic Example
+
+The _strategy_ pattern helps to abstract a certain method from its actual implementation.
+It is so fundamental to Java that it has the syntax keyword `interface` to separate _declarations_ from _implementations_.
+
+Let's consider a simple example, where we want to sort a list in ascending or descending order, using different `Comparator<T>`s.
+
+```java
+List<Integer> list = new LinkedList<>();
+list.add(4);
+list.add(7);
+list.add(1);
+list.add(1);
+
+Collections.sort(list, new Comparator<Integer>() {
+	@Override
+	public compare(Integer a, Integer b) {
+		return a.compareTo(b);
+	}
+});
+
+Collections.sort(list, new Comparator<Integer>() {
+	@Override
+	public compare(Integer a, Integer b) {
+		return b.compareTo(a);  // note the flipped order!
+	}
+});
+```
+
+# A More Sophisticated Example
+
+Check out [JavaKara](https://www.swisseduc.ch/informatik/karatojava/javakara/), a little robot bug that can be moved through a tiny world.
+
+![kara-explore](/assets/kara-explore.png)
+
+You can control it with very basic actions:
+
+```java
+public class Kara extends JavaKaraProgram {
+	public static void main(String[] args) throws Exception {
+		Kara k = new Kara();
+		k.run("src/main/resources/world2.world");
+	}
+
+	@Override
+	public void myMainProgram() {
+		kara.move();        // one step forward
+		kara.turnLeft();    // you guessed it...
+		kara.turnRight();
+		kara.treeFront();   // tree ahead?
+		kara.putLeaf();     // take a clover leaf
+		kara.removeLeav();  // remove a clover leaf		
+	}
+}
+```
+
+To have kara explore the whole room (starting from the center), you could think of two _strategies_:
+- walk concentric growing circles until the room is fully explored
+- walk to the top-right corner; then sweep left-to-right, top-to-bottom.
+
+The sample code can be found in <https://github.com/hsro-inf-prg3/hsro-inf-prg3.github.io/tree/master/examples/src/main/java/designpattern/strategy>.
+Check out the `StrategyExampleBad`, which has two explicit plans, `planA()` and `planB()`.
+Contrast it with the implementation in `StrategyExample`: here, the logic of the strategy is moved to a separate class which is instantiated as needed.
+
+
+## Structure
+
+![dp-strategy](/assets/dp-strategy.svg)
+
+
+## Discussion
+
+The strategy pattern often shows up "in disguise."
+For example, the `Stream.filter(Predicate<T> p)`, `Iterable.iterator()` or `Collection.sort(Comparator<T> c)` are all flavors of the strategy pattern: they allow to do the same thing in different ways.
+
+You can easily spot potential refactoring areas if you have code such as
+
+```java
+if (isWav())
+	return decodeWav(data);
+else if (isMP3())
+	return decodeMP3(data);
+else
+	return data.raw;
+```
+
+with the `decode{Wav,MP3}()` methods being members of the class.
+Refactor to the strategy pattern by extracting them from the class and use them via a common interface.
+
+
+## Examples
+
+- `Comparator` interface, to customize sorting
+- Encryption and authentication protocols
+- Media encoders (mp3, mp4, aac, etc.)
+- Serializers ("save as..." feature)
+
 
 ---
 
@@ -195,7 +299,7 @@ mypackage.Klass k = mypackage.Klass.create();
 As you can see, the _user_ of the package relies on the interface, and has no idea on which class was actually instantiated.
 
 
-## A More Sophisticated Example
+## A More Sophisticated Example: Factory and Strategy
 
 Recall last week's [composite pattern](/07ln-iterator-composite-observer/) which can be found for example in the implementation of JSON or an XML tree.
 In principal, both can store key-value relations, potentially nested:
@@ -319,99 +423,9 @@ Typically objects that are either complicated to instantiate or which should not
 
 ---
 
-# Strategy
-
-# A Basic Example
-
-The _strategy_ pattern helps to abstract a certain method from its actual implementation.
-It is so fundamental to Java that it has the syntax keyword `interface` to separate _declarations_ from _implementations_.
-
-Let's consider a simple example, where we want to sort a list in ascending or descending order, using different `Comparator<T>`s.
-
-```java
-List<Integer> list = new LinkedList<>();
-list.add(4);
-list.add(7);
-list.add(1);
-list.add(1);
-
-Collections.sort(list, new Comparator<Integer>() {
-	@Override
-	public compare(Integer a, Integer b) {
-		return a.compareTo(b);
-	}
-});
-
-Collections.sort(list, new Comparator<Integer>() {
-	@Override
-	public compare(Integer a, Integer b) {
-		return b.compareTo(a);  // note the flipped order!
-	}
-});
-```
-
-# A More Sophisticated Example
-
-Check out [JavaKara](https://www.swisseduc.ch/informatik/karatojava/javakara/), a little robot bug that can be moved through a tiny world.
-You can control it with very basic actions:
-
-```java
-kara.move();        // one step forward
-kara.turnLeft();    // you guessed it...
-kara.turnRight();
-kara.treeFront();   // tree ahead?
-kara.putLeaf();     // take a clover leaf
-kara.removeLeav();  // remove a clover leaf
-```
-
-![kara-explore](/assets/kara-explore.png)
-
-To have kara explore the whole room (starting from the center), you could think of two _strategies_:
-- walk concentric growing circles until the room is fully explored
-- walk to the top-right corner; then sweep left-to-right, top-to-bottom.
-
-The sample code can be found in <https://github.com/hsro-inf-prg3/hsro-inf-prg3.github.io/tree/master/examples/src/main/java/designpattern/strategy>.
-Check out the `StrategyExampleBad`, which has two explicit plans, `planA()` and `planB()`.
-Contrast it with the implementation in `StrategyExample`: here, the logic of the strategy is moved to a separate class which is instantiated as needed.
-
-
-## Structure
-
-![dp-strategy](/assets/dp-strategy.svg)
-
-
-## Discussion
-
-The strategy pattern if often "in disguise."
-For example, the `Stream.filter(Predicate<T> p)`, `Interable.iterator()` or `Collection.sort(Comparator<T> c)` are all flavors of the strategy pattern: they allow to do the same thing in different ways.
-
-You can easily spot potential refactoring areas if you have code such as
-
-```java
-if (isJson())
-	return parseJson(data);
-else if (isXML())
-	return parseXML(data);
-else
-	return data.raw;
-```
-
-with the `parse*()` functions being members.
-Refactor to the factory pattern by isolating them and use them via a common interface.
-
-
-## Examples
-
-- `Comparator` interface, to customize sorting
-- Encryption and authentication protocols
-- Media encoders (mp3, mp4, aac, etc.)
-- Serializers ("save as..." feature)
-
----
-
 # Command
 
-Let's stick with kara for a moment.
+Let's get back to kara for a moment.
 We could write a program that takes input from the command line and uses that to direct kara around.
 
 ![kara-explore-2](/assets/kara-explore-2.png)
