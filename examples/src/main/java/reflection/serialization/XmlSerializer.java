@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -95,10 +96,25 @@ public abstract class XmlSerializer {
 			/* input is a plain old Java object (POJO)
 			* fields are iterated and individually serialized */
 			for (Field f : inputClass.getDeclaredFields()) {
+
+				/* check if field has an XmlAttribute annotation to change the display name used to serialize */
+				String fieldNameContext;
+
+				/* get all annotations of type XmlAttribute
+				 * returns an empty array if no annotation is present */
+				XmlAttribute[] attributes = f.getAnnotationsByType(XmlAttribute.class);
+				if(attributes.length > 0){
+					/* take the first annotation instance to determine name */
+					fieldNameContext = attributes[0].value();
+				}else {
+					/* fallback to field name for serialization */
+					fieldNameContext = f.getName();
+				}
+
 				/* handle public fields */
-				if (f.isAccessible()) {
+				if (Modifier.isPublic(f.getModifiers())) {
 					try {
-						serializeWithName(writer, f.get(input), f.getName());
+						serializeWithName(writer, f.get(input), fieldNameContext);
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
 					}
@@ -108,7 +124,7 @@ public abstract class XmlSerializer {
 						/* generate method name from field name by using common naming conventions */
 						String methodName = isBooleanType(f.getType()) ? prefixIfNotPresent("is", f.getName()) : prefixIfNotPresent("get", f.getName());
 						Method getter = inputClass.getMethod(methodName);
-						serializeWithName(writer, getter.invoke(input), f.getName());
+						serializeWithName(writer, getter.invoke(input), fieldNameContext);
 					} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 						e.printStackTrace();
 					}

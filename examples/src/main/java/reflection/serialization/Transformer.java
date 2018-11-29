@@ -1,8 +1,12 @@
 package reflection.serialization;
 
 public class Transformer {
+
 	private final String name;
+
+	@XmlAttribute("transforms_to")
 	private final String transformsTo;
+
 	private final boolean isLeader;
 
 	public Transformer(String name, String transformsTo, boolean isLeader) {
