@@ -68,7 +68,7 @@ Credits: written exam (90') at the end of the semester.
 	
 	Learn how reflection works in Java, and how they enable annotations by using examples of testing ([JUnit5](http://junit.org/junit5/)), serialization ([gson](https://github.com/google/gson)) and networking ([retrofit](https://github.com/square/retrofit)).
 
-- **Design patterns, pt. 1 (Nov 22, [slides](/07s-iterator-composite-observer/), [lecture notes](/07ln-iterator-composite-observer/), assignments: [JavaFX (einfach)](https://github.com/hsro-inf-prg3/07-composite-observer-jfx) | [Android](https://github.com/hsro-inf-prg3/07-composite-observer))**
+- **Design patterns, pt. 1 (Nov 22, [slides](/07s-iterator-composite-observer/), [lecture notes](/07ln-iterator-composite-observer/), assignments: [JavaFX (einfach)](https://github.com/hsro-inf-prg3/07-composite-observer-jfx), [Android](https://github.com/hsro-inf-prg3/07-composite-observer))**
 
 	We begin with a few basic patterns: composite, iterator and observer, and use that to dive into Android and MVC/MVVC.
 

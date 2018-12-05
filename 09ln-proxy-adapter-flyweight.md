@@ -133,9 +133,9 @@ However, the point of the
 
 # Adapter
 
-Let's stick with the example above, where you implemented a `MensaService` class that allows you to get the list of meals via `.getMeals(date)`.
+Let's stick with the example above, where you implemented a `MensaService` class that allows you to get the list of meals via `getMeals(String date)`.
 Now you meet with your friend who is writing the front-end part of the app.
-Well, they were expecting you to provide the meals in form of an `Iterable`:
+Well, they were expecting you to provide the meals in form of an `Iterable` where you can set the date:
 
 ```java
 interface MealProvider extends Iterable<Meal> {
@@ -163,7 +163,7 @@ class MealAdapter extends MensaService implements MealProvider {
 			// optionally: use today if date == null?
 			return super.getMeals(date).iterator();
 		} catch (IOException e) {
-			return null;
+			return Collections.emptyIterator();
 		}
 	}
 }
