@@ -68,24 +68,24 @@ Credits: written exam (90') at the end of the semester.
 	
 	Learn how reflection works in Java, and how they enable annotations by using examples of testing ([JUnit5](http://junit.org/junit5/)), serialization ([gson](https://github.com/google/gson)) and networking ([retrofit](https://github.com/square/retrofit)).
 
-- **Design patterns, pt. 1 (Nov 22, [slides](/07s-iterator-composite-observer/), [lecture notes](/07ln-iterator-composite-observer/), assignments: [JavaFX (einfach)](https://github.com/hsro-inf-prg3/07-composite-observer-jfx), [Android](https://github.com/hsro-inf-prg3/07-composite-observer))**
+- **Design patterns, pt. 1 (Nov 22, [slides](/07s-iterator-composite-observer/), [lecture notes](/07ln-iterator-composite-observer/), assignments: [JavaFX (recommended)](https://github.com/hsro-inf-prg3/07-composite-observer-jfx) or [Android (advanced)](https://github.com/hsro-inf-prg3/07-composite-observer))**
 
 	We begin with a few basic patterns: composite, iterator and observer, and use that to dive into Android and MVC/MVVC.
 
-- **Design patterns, pt. 2 (Nov 29, [slides](/08s-singleton-factory-strategy-command/), [lecture notes](/08ln-singleton-factory-strategy-command/), [assignments](https://github.com/hsro-inf-prg3/08-singleton-factory-strategy-jfx))**
+- **Design patterns, pt. 2 (Nov 29, [slides](/08s-singleton-factory-strategy-command/), [lecture notes](/08ln-singleton-factory-strategy-command/), assignments: [JavaFX](https://github.com/hsro-inf-prg3/08-singleton-factory-strategy-jfx) or [Android](https://github.com/hsro-inf-prg3/08-singleton-factory-strategy-android))**
 
 	We look at more every-day-patterns: singleton, factory, strategy and command.
 
-- **Design patterns, pt. 3 (Dec 6, [slides](/09s-proxy-adapter-flyweight/), [lecture notes](/09ln-proxy-adapter-flyweight/), [assignments](https://github.com/hsro-inf-prg3/09-adapter-flyweight))**
+- **Design patterns, pt. 3 (Dec 6, [slides](/09s-proxy-adapter-flyweight/), [lecture notes](/09ln-proxy-adapter-flyweight/), assignments: [JavaFX](https://github.com/hsro-inf-prg3/09-adapter-flyweight-jfx), [Android](https://github.com/hsro-inf-prg3/09-adapter-flyweight-android))**
 	
 	We round up a few more useful patterns: proxy and adapter to make other peoples' modules fit your needs, and flyweight to save on precious memory in (mostly) graphical apps.
 
-- **Parallel processing, pt. 1 (Dec 13, [slides](/10s-threads/), [lecture notes](/10ln-threads/), [assignments](https://github.com/hsro-inf-prg3/10-threads))**
+- **Parallel processing, pt. 1 (Dec 13, [slides](/10s-threads/), [lecture notes](/10ln-threads/), assignments: [JavaFX](https://github.com/hsro-inf-prg3/10-threads-jfx) or [Android](https://github.com/hsro-inf-prg3/10-threads-android))**
 
-	Because sometimes, you need to work more than one thing at a time!
+	Because sometimes, you need to work on more than one thing at a time!
 	We'll talk about threads and concurrency when it comes to resources.
 
-- **Parallel processing, pt. 2 (Dec 20, [slides](/11s-futures/), [lecture notes](/11ln-futures/), assignments [alternate1](https://github.com/hsro-inf-prg3/11-futures-cli) or [alternate2](https://github.com/hsro-inf-prg3/11-futures-android))**
+- **Parallel processing, pt. 2 (Dec 20, [slides](/11s-futures/), [lecture notes](/11ln-futures/), assignments: [Terminal](https://github.com/hsro-inf-prg3/11-futures-cli) or [Android](https://github.com/hsro-inf-prg3/11-futures-android))**
 	
 	`Thread`s are clunky--- learn about a better `Future`, and what _promise chaining_ can do for you.
 
