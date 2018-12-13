@@ -57,7 +57,7 @@ class MyProgram {
 # Bean Counters
 
 ```java
-class BeanCounter implements Runnable {
+class BeanCounter {
 	private final String name;
 	private final double[] data;
 	BeanCounter(String name, int n) {
@@ -65,7 +65,6 @@ class BeanCounter implements Runnable {
 		this.data = new double [n];
 	}
 
-	@Override
 	public void run() {
 		System.out.println(name + " is starting...");
 		Arrays.sort(data);
@@ -94,6 +93,12 @@ public static void main(String... args) {
 ---
 
 # Threaded Bean Counters
+
+```java
+class BeanCounter implements Runnable {
+	// ...
+}
+```
 
 ```java
 public static void main(String[] args) {

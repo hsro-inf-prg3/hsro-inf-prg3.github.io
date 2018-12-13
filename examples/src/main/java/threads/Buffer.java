@@ -29,4 +29,37 @@ class Buffer<T> {
 		notifyAll();
 		return obj;
 	}
+
+	public static void main(String[] args) throws InterruptedException {
+		Buffer<String> ps = new Buffer<>();
+
+		final int n = 20;
+
+		Thread prod = new Thread(() -> {
+			try {
+				for (int i = 0; i < n; i++) {
+					ps.put("Eintrag " + i);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
+
+		Thread cons = new Thread(() -> {
+			try {
+				for (int i = 0; i < n; i++) {
+					System.out.println(ps.get());
+					Thread.sleep(100);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
+
+		prod.start();
+		cons.start();
+
+
+		cons.join();
+	}
 }

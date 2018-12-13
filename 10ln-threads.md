@@ -50,10 +50,10 @@ A Process has a complete and private set of run-time resources; in particular, e
 # Threads
 
 Consider this simple class that models a bean counter.
-It receives a name and allocates a large array of numbers; a call to `.run()` (inherited from the interface `Runnable`) sorts the data.
+It receives a name and allocates a large array of numbers; a call to `.run()` sorts the data.
 
 ```java
-class BeanCounter implements Runnable {
+class BeanCounter {
 	private final String name;
 	private final double[] data;
 	BeanCounter(String name, int n) {
@@ -61,7 +61,6 @@ class BeanCounter implements Runnable {
 		this.data = new double [n];
 	}
 
-	@Override
 	public void run() {
 		System.out.println(name + " is starting...");
 		Arrays.sort(data);
@@ -99,6 +98,15 @@ main() done!
 
 To make the bean counters work in parallel, use the [`Thread` class](https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html).
 It takes an instance of `Runnable` of which it will execute the `.run()` method _in a separate thread_, once the thread's `.start()` method is called.
+First, modify the `BeanCounter` to implement the `Runnable` interface
+
+```java
+public class BeanCounter implements Runnable {
+	// ...
+}
+```
+
+and then pass instances to the `Thread` class constructor:
 
 ```java
 public static void main(String[] args) {
