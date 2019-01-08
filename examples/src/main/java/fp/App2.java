@@ -29,6 +29,8 @@ public class App2 {
 		}
 	}
 
+	// reduction
+
 	static int sum(List<Integer> xs, int z) {
 		if (xs.isEmpty()) return z;
 		else return sum(xs.tail, z+xs.head);
