@@ -28,7 +28,7 @@ def isort(xs: List[Int]): List[Int] = xs match {
 	case List(x) => List(x)
 	// otherwise, cut off the first element (y) and
 	// insert it into the sorted remaining list (ys)
-	case y :: ys => insert(y, isort(ys))
+	case y :: ys => insert(isort(ys), y)
 }
 
 // to insert an element into a (sorted) list...
