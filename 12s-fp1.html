@@ -266,27 +266,30 @@ forEach(xs, System.out::println);
 
 # Example
 
-### Iterative Solution
+### Iterative Solution (see earlier slide)
 
 ```java
-for (Student s : getStudents()) {
+for (Student s : Database.getStudents()) {
 	if (s.getClasses().contains("Programmieren 3")) {
-		ToR tor = db.getToR(s.getMatrikel());
-		for (Record r : tor) {
-			System.out.println(r.getName());
-		}
+		Transcript tr = Database.getToR(s.getMatrikel());
+		for (Record r : tr)
+			System.out.println(r);
 	}
 }
 ```
 
+---
+
+# Example
+
 ### Functional Solution
 
 ```java
-getStudents().stream()
+Database.getStudents().stream()
 	.filter(s -> s.getClasses().contains("Programmieren 3"))
 	.map(Student::getMatrikel)
-	.map(db::getToR)
-	.map(Record::getName)
+	.map(Database::getToR)
+	.flatMap(t -> t.records.stream())  // stream of lists to single list
 	.forEach(System.out::println);
 ```
 

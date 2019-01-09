@@ -90,16 +90,17 @@ Let me illustrate this with a simple example (will go through it in detail at th
 Say you want to
 - retrieve all students from a database,
 - filter out those who took _Programmieren 3_,
-- load their transcript of records from another database
+- load (all of) their transcript of records from another database
 - print all class names
 
 ```java
-for (Student s : getStudents()) {
+// code in src/fplive/{Database,Student,Transcript,Record}.java
+// data in src/resources/{students,tors}.json
+for (Student s : Database.getStudents()) {
 	if (s.getClasses().contains("Programmieren 3")) {
-		ToR tor = db.getToR(s.getMatrikel());
-		for (Record r : tor) {
-			System.out.println(r.getName());
-		}
+		Transcript tr = Database.getToR(s.getMatrikel());
+		for (Record r : tr)
+			System.out.println(r);
 	}
 }
 ```
@@ -513,12 +514,11 @@ Our `forEach` method had return type `void`; here, this _terminal_ operation als
 Recall the (iterative) example from the very top: retrieve a list of students, find those who attended a certain class, and then print out the names of the classes on their transcript of records.
 
 ```java
-for (Student s : getStudents()) {
+for (Student s : Database.getStudents()) {
 	if (s.getClasses().contains("Programmieren 3")) {
-		ToR tor = db.getToR(s.getMatrikel());
-		for (Record r : tor) {
-			System.out.println(r.getName());
-		}
+		Transcript tr = Database.getToR(s.getMatrikel());
+		for (Record r : tr)
+			System.out.println(r);
 	}
 }
 ```
@@ -526,11 +526,11 @@ for (Student s : getStudents()) {
 In functional Java, this becomes (in a most detailed variant)
 
 ```java
-getStudents().stream()
+Database.getStudents().stream()
 	.filter(s -> s.getClasses().contains("Programmieren 3"))
 	.map(Student::getMatrikel)
-	.map(db::getToR)
-	.map(Record::getName)
+	.map(Database::getToR)
+	.flatMap(t -> t.records.stream())  // stream of lists to single list
 	.forEach(System.out::println);
 ```
 
