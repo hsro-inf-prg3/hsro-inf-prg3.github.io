@@ -38,7 +38,7 @@ def insert(xs: List[Int], x: Int): List[Int] = xs match {
 	// otherwise: cut off the first element of xs and ...
 	case y :: ys =>
 		if (x < y) x :: xs       // prepend x to xs
-		else y :: insert(x, ys)  // insert x into ys
+		else y :: insert(ys, x)  // insert x into ys
 }
 ```
 
